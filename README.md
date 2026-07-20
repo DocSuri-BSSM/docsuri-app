@@ -1,56 +1,36 @@
-# Welcome to your Expo app 👋
+# 독수리 (docsuri-app)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Expo SDK 56 기반 **Android 전용** 앱.
 
-## Get started
+## 요구사항
 
-1. Install dependencies
+- Node.js 20+
+- pnpm 11+ (`corepack enable`)
+- Android Studio + Android SDK (에뮬레이터 또는 실기기)
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+## 시작하기
 
 ```bash
-npm run reset-project
+pnpm install
+cp .env.example .env   # EXPO_PUBLIC_API_URL 설정
+pnpm android
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+> `expo-font`, `expo-secure-store` config plugin을 사용하므로 Expo Go가 아닌 **dev build**가 필요하다.
+> Android 에뮬레이터에서 호스트 PC의 localhost는 `http://10.0.2.2:<port>`.
 
-### Other setup steps
+## 스크립트
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+| 명령                     | 설명               |
+| ------------------------ | ------------------ |
+| `pnpm start`             | Metro 시작         |
+| `pnpm dev`               | dev client로 시작  |
+| `pnpm android`           | Android 실행       |
+| `pnpm lint`              | ESLint 검사        |
+| `pnpm lint:fix`          | ESLint 자동 수정   |
+| `pnpm format`            | Prettier 전체 포맷 |
+| `pnpm exec tsc --noEmit` | 타입 체크          |
 
-## Learn more
+## 규칙
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+패키지 매니저 · 폴더 구조 · 스타일 토큰 규칙은 [AGENTS.md](./AGENTS.md)를 참고할 것.

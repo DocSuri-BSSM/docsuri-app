@@ -16,7 +16,6 @@
         "backgroundColor": "#FFFFFF"
       },
       "permissions": ["android.permission.INTERNET"],
-      "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
     },
     "plugins": [

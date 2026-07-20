@@ -34,15 +34,19 @@
 |             | react-native-svg               | 15.15.4            |
 | 언어/도구   | typescript                     | ~6.0.3             |
 |             | eslint                         | ^9.39.5            |
+|             | eslint-config-expo             | ~56.0.4            |
 |             | prettier                       | ^3.9.5             |
 
 > eslint는 **9.x에 고정**한다. 10.x는 `eslint-plugin-react`(eslint-config-expo 의존)와 호환되지 않아 lint가 크래시한다.
+> `eslint-config-expo`도 SDK 메이저에 맞춰 **56.x**를 쓴다. (57.x는 expo-doctor 버전 검사에서 실패)
 
 ## 패키지 매니저 규칙
 
 - **pnpm만 사용한다.** npm / yarn / bun 금지.
 - 패키지 추가는 `pnpm expo install <pkg>` (SDK 56에 맞는 버전으로 고정됨). Expo와 무관한 순수 JS 패키지만 `pnpm add`.
-- 루트 `.npmrc`의 `node-linker=hoisted`는 **절대 지우지 말 것.** RN 네이티브 오토링킹이 hoisted 구조를 전제로 동작한다.
+- **hoisted node_modules는 필수다. 절대 지우지 말 것.** RN 네이티브 오토링킹과 nativewind(`react-native-css-interop`) 해석이 flat 구조를 전제로 한다. isolated로 설치하면 `Unable to resolve module react-native-css-interop/jsx-runtime` 로 번들이 깨진다.
+  - `pnpm-workspace.yaml`의 `nodeLinker: hoisted` ← **pnpm 11이 실제로 읽는 설정**
+  - `.npmrc`의 `node-linker=hoisted` ← pnpm 10 이하 호환용. 두 파일을 항상 같이 유지한다.
 
 ## 스크립트
 
