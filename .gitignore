@@ -6,7 +6,6 @@ node_modules/
 # Expo
 .expo/
 dist/
-web-build/
 expo-env.d.ts
 
 # Native
@@ -30,14 +29,13 @@ yarn-error.*
 .DS_Store
 *.pem
 
-# local env files
-.env*.local
+# env files (.env.example만 커밋한다)
+.env
+.env.*
+!.env.example
 
 # typescript
 *.tsbuildinfo
 
-example
-
 # generated native folders
-/ios
 /android
