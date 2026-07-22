@@ -6,39 +6,43 @@
  * 임의값(text-[#FF8800]) 사용 금지 — 새로운 색은 반드시 여기에 먼저 추가할 것.
  */
 const colors = {
+  // 피그마 Foundation/Blue 기준 (blue-500 #719EF6, blue-600 #6790E0)
   primary: {
-    50: '#EFF6FF',
-    100: '#DBEAFE',
-    200: '#BFDBFE',
-    300: '#93C5FD',
-    400: '#60A5FA',
-    500: '#3B82F6',
-    600: '#2563EB',
-    700: '#1D4ED8',
-    800: '#1E40AF',
-    900: '#1E3A8A',
+    50: '#EAF2FE',
+    100: '#D5E4FD',
+    200: '#BBD2FB',
+    300: '#A0C0FA',
+    400: '#88AFF8',
+    500: '#719EF6',
+    600: '#6790E0',
+    700: '#5476B8',
+    800: '#425D90',
+    900: '#304468',
   },
+  // 피그마 Foundation/grey 기준 (50·100·500·600·800이 피그마 정의값,
+  // 나머지 단계는 같은 계열(Chakra gray)로 채워 색조를 맞춘다)
   gray: {
-    50: '#F9FAFB',
-    100: '#F3F4F6',
-    200: '#E5E7EB',
-    300: '#D1D5DB',
-    400: '#9CA3AF',
-    500: '#6B7280',
-    600: '#4B5563',
-    700: '#374151',
-    800: '#1F2937',
-    900: '#111827',
+    50: '#F8F9FB',
+    100: '#EEF1F6',
+    200: '#E2E8F0',
+    300: '#CBD5E0',
+    400: '#A0AEC0',
+    500: '#6E7D94',
+    600: '#4A5568',
+    700: '#2D3748',
+    800: '#1A202C',
+    900: '#171923',
   },
   success: {
     100: '#DCFCE7',
     500: '#22C55E',
     700: '#15803D',
   },
+  // 100·700은 피그마 메인페이지 면책 배너 색상
   warning: {
-    100: '#FEF3C7',
+    100: '#FEF6E8',
     500: '#F59E0B',
-    700: '#B45309',
+    700: '#866E43',
   },
   danger: {
     100: '#FEE2E2',
@@ -49,14 +53,14 @@ const colors = {
   black: '#000000',
   transparent: 'transparent',
 
-  // 시맨틱 토큰
+  // 시맨틱 토큰 (피그마 매핑: surface=g50, border=g100, text.primary=g800, text.secondary=g500)
   background: '#FFFFFF',
-  surface: '#F9FAFB',
-  border: '#E5E7EB',
+  surface: '#F8F9FB',
+  border: '#EEF1F6',
   text: {
-    primary: '#111827',
-    secondary: '#4B5563',
-    tertiary: '#9CA3AF',
+    primary: '#1A202C',
+    secondary: '#6E7D94',
+    tertiary: '#A0AEC0',
     inverse: '#FFFFFF',
   },
 };

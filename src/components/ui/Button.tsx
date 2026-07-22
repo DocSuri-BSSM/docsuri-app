@@ -54,7 +54,7 @@ export default function Button({
       {loading ? (
         <ActivityIndicator size="small" />
       ) : (
-        <Typography variant="body1" className={`font-medium ${VARIANT_TEXT_CLASS[variant]}`}>
+        <Typography variant="body1" className={`font-bold ${VARIANT_TEXT_CLASS[variant]}`}>
           {label}
         </Typography>
       )}
