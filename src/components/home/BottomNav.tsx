@@ -23,6 +23,7 @@ export type BottomNavTabKey = (typeof TABS)[number]['key'];
 // 화면이 있는 탭만 라우트를 연결한다. 나머지 탭은 화면이 생기면 여기에 추가.
 const TAB_ROUTES: Partial<Record<BottomNavTabKey, Href>> = {
   home: '/',
+  result: '/result',
   upload: '/upload',
 };
 
