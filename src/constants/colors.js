@@ -19,14 +19,14 @@ const colors = {
     800: '#425D90',
     900: '#304468',
   },
-  // 피그마 Foundation/grey 기준 (50·100·500·600·800이 피그마 정의값,
+  // 피그마 Foundation/grey 기준 (50·100·400·500·600·700·800이 피그마 정의값,
   // 나머지 단계는 같은 계열(Chakra gray)로 채워 색조를 맞춘다)
   gray: {
     50: '#F8F9FB',
     100: '#EEF1F6',
     200: '#E2E8F0',
     300: '#CBD5E0',
-    400: '#A0AEC0',
+    400: '#9DAABB',
     500: '#6E7D94',
     600: '#4A5568',
     700: '#2D3748',
@@ -60,7 +60,7 @@ const colors = {
   text: {
     primary: '#1A202C',
     secondary: '#6E7D94',
-    tertiary: '#A0AEC0',
+    tertiary: '#9DAABB',
     inverse: '#FFFFFF',
   },
 };

@@ -41,13 +41,15 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const isDisabled = disabled || loading;
+  // primary 비활성은 반투명 대신 회색 배경 (피그마 디자인 기준)
+  const variantClass = isDisabled && variant === 'primary' ? 'bg-gray-300' : VARIANT_CLASS[variant];
 
   return (
     <Pressable
       accessibilityRole="button"
       disabled={isDisabled}
-      className={`flex-row items-center justify-center ${VARIANT_CLASS[variant]} ${SIZE_CLASS[size]} ${
-        isDisabled ? 'opacity-50' : ''
+      className={`flex-row items-center justify-center ${variantClass} ${SIZE_CLASS[size]} ${
+        isDisabled && variant !== 'primary' ? 'opacity-50' : ''
       } ${className ?? ''}`}
       {...props}
     >

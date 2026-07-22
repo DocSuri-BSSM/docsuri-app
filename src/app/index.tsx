@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -68,8 +69,10 @@ export default function HomeScreen() {
       <ConsentSheet
         visible={consentOpen}
         onClose={() => setConsentOpen(false)}
-        // TODO: 동의 후 서류 업로드 화면 연결
-        onAgree={() => setConsentOpen(false)}
+        onAgree={() => {
+          setConsentOpen(false);
+          router.push('/upload');
+        }}
       />
     </SafeAreaView>
   );

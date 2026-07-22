@@ -1,3 +1,4 @@
+import { router, type Href } from 'expo-router';
 import { Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -19,6 +20,12 @@ const TABS = [
 
 export type BottomNavTabKey = (typeof TABS)[number]['key'];
 
+// 화면이 있는 탭만 라우트를 연결한다. 나머지 탭은 화면이 생기면 여기에 추가.
+const TAB_ROUTES: Partial<Record<BottomNavTabKey, Href>> = {
+  home: '/',
+  upload: '/upload',
+};
+
 interface BottomNavProps {
   activeTab?: BottomNavTabKey;
   onTabPress?: (tab: BottomNavTabKey) => void;
@@ -26,6 +33,14 @@ interface BottomNavProps {
 
 export default function BottomNav({ activeTab = 'home', onTabPress }: BottomNavProps) {
   const insets = useSafeAreaInsets();
+
+  const handleTabPress = (tab: BottomNavTabKey) => {
+    onTabPress?.(tab);
+    const route = TAB_ROUTES[tab];
+    if (route && tab !== activeTab) {
+      router.navigate(route);
+    }
+  };
 
   return (
     <View
@@ -42,7 +57,7 @@ export default function BottomNav({ activeTab = 'home', onTabPress }: BottomNavP
             accessibilityRole="tab"
             accessibilityState={{ selected: isActive }}
             className="flex-1 flex-col items-center gap-xs p-sm active:opacity-60"
-            onPress={() => onTabPress?.(key)}
+            onPress={() => handleTabPress(key)}
           >
             <Icon width={24} height={24} color={color} />
             <Typography
