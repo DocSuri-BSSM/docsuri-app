@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
+  cancelAnimation,
   Easing,
   useAnimatedStyle,
   useSharedValue,
@@ -12,6 +13,7 @@ import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import colors from '@/constants/colors';
 
 const SCAN_HEIGHT = 64;
+const SCAN_LINE_HEIGHT = 2;
 
 /** 서류 스켈레톤 위로 스캔 라인이 내려가는 목업 카드. */
 export default function DocScanCard() {
@@ -19,16 +21,22 @@ export default function DocScanCard() {
   const progress = useSharedValue(0);
 
   useEffect(() => {
+    // withTiming은 현재 값에서 출발하므로 항상 맨 위(0)에서 시작하도록 리셋한다.
+    progress.value = 0;
+    // reverse: true — 처음→끝→처음으로 왕복하며 끊김 없이 이어진다.
     progress.value = withRepeat(
       withTiming(1, { duration: 2400, easing: Easing.inOut(Easing.ease) }),
       -1,
-      false,
+      true,
     );
+    return () => cancelAnimation(progress);
   }, [progress]);
 
+  // 스캔 라인이 카드 맨 위 가장자리에서 출발해 맨 아래 가장자리까지 이동한다.
+  // (그라디언트 꼬리는 카드 밖에서 시작해 overflow-hidden으로 잘린다)
   const scanStyle = useAnimatedStyle(
     () => ({
-      transform: [{ translateY: progress.value * Math.max(cardHeight - SCAN_HEIGHT, 0) }],
+      transform: [{ translateY: progress.value * Math.max(cardHeight - SCAN_LINE_HEIGHT, 0) }],
     }),
     [cardHeight],
   );
@@ -60,6 +68,12 @@ export default function DocScanCard() {
 }
 
 const styles = StyleSheet.create({
-  scan: { position: 'absolute', left: 0, right: 0, top: 0, height: SCAN_HEIGHT },
-  scanLine: { height: 2, backgroundColor: colors.primary[500] },
+  scan: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: SCAN_LINE_HEIGHT - SCAN_HEIGHT,
+    height: SCAN_HEIGHT,
+  },
+  scanLine: { height: SCAN_LINE_HEIGHT, backgroundColor: colors.primary[500] },
 });
