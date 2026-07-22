@@ -96,8 +96,7 @@ export default function UploadScreen() {
           label={remaining > 0 ? `서류 ${remaining}개 더 올리면 시작` : '검수 시작'}
           size="lg"
           disabled={remaining > 0}
-          // TODO: 검수 진행 화면 연결
-          onPress={() => {}}
+          onPress={() => router.push('/processing')}
         />
       </View>
       <BottomNav activeTab="upload" />
