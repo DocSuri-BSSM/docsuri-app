@@ -1,14 +1,18 @@
+import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import WarningIcon from '@/assets/images/icons/warning.svg';
 import BottomNav from '@/components/home/BottomNav';
+import ConsentSheet from '@/components/home/ConsentSheet';
 import GlossarySection from '@/components/home/GlossarySection';
 import Button from '@/components/ui/Button';
 import Typography from '@/components/ui/Typography';
 import colors from '@/constants/colors';
 
 export default function HomeScreen() {
+  const [consentOpen, setConsentOpen] = useState(false);
+
   return (
     <SafeAreaView edges={['top']} style={styles.container}>
       <ScrollView style={styles.scroll} contentContainerClassName="gap-2xl px-xl py-2xl">
@@ -40,8 +44,12 @@ export default function HomeScreen() {
         </View>
 
         <View className="w-full flex-col gap-xs">
-          {/* TODO: 서류 업로드 화면 연결 */}
-          <Button label="서류 올리고 검수 시작" size="lg" className="w-full" />
+          <Button
+            label="서류 올리고 검수 시작"
+            size="lg"
+            className="w-full"
+            onPress={() => setConsentOpen(true)}
+          />
           <Typography variant="caption" className="text-center">
             회원가입 없이 바로 시작 · 평균 12초
           </Typography>
@@ -57,6 +65,12 @@ export default function HomeScreen() {
         <GlossarySection />
       </ScrollView>
       <BottomNav />
+      <ConsentSheet
+        visible={consentOpen}
+        onClose={() => setConsentOpen(false)}
+        // TODO: 동의 후 서류 업로드 화면 연결
+        onAgree={() => setConsentOpen(false)}
+      />
     </SafeAreaView>
   );
 }
