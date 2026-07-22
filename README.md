@@ -13,7 +13,9 @@ Expo SDK 56 기반 **Android 전용** 앱.
 ```bash
 pnpm install
 cp .env.example .env   # EXPO_PUBLIC_API_URL 설정
-pnpm android
+
+pnpm android           # 첫 실행: dev build 생성·설치 (Gradle 빌드, 수 분 소요)
+pnpm dev               # 이후 JS 수정 시: dev build를 켠 채 Metro만 붙임
 ```
 
 > `expo-font`, `expo-secure-store` config plugin을 사용하므로 Expo Go가 아닌 **dev build**가 필요하다.
@@ -21,15 +23,15 @@ pnpm android
 
 ## 스크립트
 
-| 명령                     | 설명               |
-| ------------------------ | ------------------ |
-| `pnpm start`             | Metro 시작         |
-| `pnpm dev`               | dev client로 시작  |
-| `pnpm android`           | Android 실행       |
-| `pnpm lint`              | ESLint 검사        |
-| `pnpm lint:fix`          | ESLint 자동 수정   |
-| `pnpm format`            | Prettier 전체 포맷 |
-| `pnpm exec tsc --noEmit` | 타입 체크          |
+| 명령                     | 설명                                          |
+| ------------------------ | --------------------------------------------- |
+| `pnpm android`           | dev build 생성·설치·실행 (`expo run:android`) |
+| `pnpm dev`               | dev client로 Metro 시작                       |
+| `pnpm start`             | Metro 시작                                    |
+| `pnpm lint`              | ESLint 검사                                   |
+| `pnpm lint:fix`          | ESLint 자동 수정                              |
+| `pnpm format`            | Prettier 전체 포맷                            |
+| `pnpm exec tsc --noEmit` | 타입 체크                                     |
 
 ## 규칙
 

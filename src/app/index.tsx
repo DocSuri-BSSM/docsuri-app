@@ -1,15 +1,20 @@
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Typography from '@/components/ui/Typography';
 
 export default function HomeScreen() {
   return (
-    <SafeAreaView className="flex-1 bg-background">
-      <View className="flex-1 items-center justify-center gap-sm px-lg">
+    <SafeAreaView style={styles.container}>
+      <View style={styles.content}>
         <Typography variant="h2">독수리</Typography>
         <Typography variant="body2">기초 설정 완료</Typography>
       </View>
     </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  content: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 8 },
+});

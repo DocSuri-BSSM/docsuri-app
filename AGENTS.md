@@ -50,15 +50,18 @@
 
 ## 스크립트
 
-| 명령                     | 설명               |
-| ------------------------ | ------------------ |
-| `pnpm start`             | Metro 시작         |
-| `pnpm dev`               | dev client로 시작  |
-| `pnpm android`           | Android 실행       |
-| `pnpm lint`              | ESLint 검사        |
-| `pnpm lint:fix`          | ESLint 자동 수정   |
-| `pnpm format`            | Prettier 전체 포맷 |
-| `pnpm exec tsc --noEmit` | 타입 체크          |
+| 명령                     | 설명                                          |
+| ------------------------ | --------------------------------------------- |
+| `pnpm android`           | dev build 생성·설치·실행 (`expo run:android`) |
+| `pnpm dev`               | dev client로 Metro 시작 (빌드 후 재실행용)    |
+| `pnpm start`             | Metro 시작                                    |
+| `pnpm lint`              | ESLint 검사                                   |
+| `pnpm lint:fix`          | ESLint 자동 수정                              |
+| `pnpm format`            | Prettier 전체 포맷                            |
+| `pnpm exec tsc --noEmit` | 타입 체크                                     |
+
+> config plugin(`expo-font`, `expo-secure-store`) 때문에 **Expo Go로는 실행 불가**하다.
+> 첫 실행은 `pnpm android`(dev build)로 하고, 이후 JS만 고칠 때는 dev build를 켠 채 `pnpm dev`로 Metro만 붙인다.
 
 ## 폴더 구조 규칙
 

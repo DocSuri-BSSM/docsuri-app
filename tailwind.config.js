@@ -47,15 +47,17 @@ module.exports = {
         '4xl': 48,
         full: 9999,
       },
+      // lineHeight는 반드시 px 단위 문자열로 준다.
+      // 단위 없는 숫자(32)는 CSS에서 배수로 해석돼 RN lineHeight가 fontSize×32로 폭증한다.
       fontSize: {
-        xs: [12, { lineHeight: 16 }],
-        sm: [14, { lineHeight: 20 }],
-        base: [16, { lineHeight: 24 }],
-        lg: [18, { lineHeight: 26 }],
-        xl: [20, { lineHeight: 28 }],
-        '2xl': [24, { lineHeight: 32 }],
-        '3xl': [32, { lineHeight: 40 }],
-        '4xl': [40, { lineHeight: 48 }],
+        xs: ['12px', { lineHeight: '16px' }],
+        sm: ['14px', { lineHeight: '20px' }],
+        base: ['16px', { lineHeight: '24px' }],
+        lg: ['18px', { lineHeight: '26px' }],
+        xl: ['20px', { lineHeight: '28px' }],
+        '2xl': ['24px', { lineHeight: '32px' }],
+        '3xl': ['32px', { lineHeight: '40px' }],
+        '4xl': ['40px', { lineHeight: '48px' }],
       },
       fontFamily: {
         regular: ['Pretendard-Regular'],
