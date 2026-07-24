@@ -3,7 +3,9 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import BackIcon from '@/assets/images/icons/back.svg';
+import ClipboardIcon from '@/assets/images/icons/clipboard.svg';
 import CopyIcon from '@/assets/images/icons/copy.svg';
+import WarningIcon from '@/assets/images/icons/warning.svg';
 import Button from '@/components/ui/Button';
 import Typography from '@/components/ui/Typography';
 import colors from '@/constants/colors';
@@ -107,9 +109,7 @@ export default function RationaleScreen() {
         ))}
 
         <View className="mt-xs w-full flex-row items-start gap-sm rounded-md bg-warning-100 px-lg py-md">
-          <Typography variant="caption" className="text-text-primary">
-            ⚠️
-          </Typography>
+          <WarningIcon width={16} height={16} color={colors.warning[700]} />
           <Typography variant="caption" className="flex-1 text-warning-700">
             품목분류 사전심사(관세청)를 통해 최종 확정하시길 권장합니다. 본 논리는 AI 초안입니다.
           </Typography>
@@ -124,7 +124,7 @@ export default function RationaleScreen() {
           // TODO: 클립보드 복사 (expo-clipboard 도입 시)
           onPress={() => {}}
         >
-          <Typography variant="h4">📋</Typography>
+          <ClipboardIcon width={22} height={22} color={colors.gray[600]} />
         </Pressable>
         <View className="flex-1">
           <Button

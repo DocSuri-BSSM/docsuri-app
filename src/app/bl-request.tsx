@@ -4,6 +4,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import BackIcon from '@/assets/images/icons/back.svg';
+import CheckIcon from '@/assets/images/icons/check.svg';
 import ExportSheet from '@/components/export/ExportSheet';
 import Button from '@/components/ui/Button';
 import Typography from '@/components/ui/Typography';
@@ -43,9 +44,10 @@ export default function BlRequestScreen() {
 
       <ScrollView style={styles.scroll} contentContainerClassName="gap-sm px-xl pb-2xl pt-sm">
         <View className="w-full flex-row items-center gap-sm">
-          <View className="rounded-sm bg-success-100 px-md py-xs">
+          <View className="flex-row items-center gap-xs rounded-sm bg-success-100 px-md py-xs">
+            <CheckIcon width={12} height={12} color={colors.success[500]} />
             <Typography variant="caption" className="font-bold text-success-500">
-              ✓ 자동 생성됨
+              자동 생성됨
             </Typography>
           </View>
           <Typography variant="caption" className="text-text-secondary">

@@ -1,9 +1,13 @@
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { type ComponentType, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { type SvgProps } from 'react-native-svg';
 
 import BackIcon from '@/assets/images/icons/back.svg';
+import DocumentIcon from '@/assets/images/icons/document.svg';
+import PackageIcon from '@/assets/images/icons/package.svg';
+import ShipIcon from '@/assets/images/icons/ship.svg';
 import UploadIcon from '@/assets/images/icons/upload.svg';
 import BottomNav from '@/components/home/BottomNav';
 import Button from '@/components/ui/Button';
@@ -13,10 +17,25 @@ import colors from '@/constants/colors';
 
 type DocKey = 'invoice' | 'bl' | 'packing';
 
-const DOC_SLOTS: { key: DocKey; emoji: string; label: string; mockFileName: string }[] = [
-  { key: 'invoice', emoji: '📄', label: 'Invoice', mockFileName: 'commercial_invoice_0612.pdf' },
-  { key: 'bl', emoji: '🚢', label: 'B/L', mockFileName: 'bill_of_lading_scan.jpg' },
-  { key: 'packing', emoji: '📦', label: 'Packing List', mockFileName: 'packing_list_0612.xlsx' },
+const DOC_SLOTS: {
+  key: DocKey;
+  Icon: ComponentType<SvgProps>;
+  label: string;
+  mockFileName: string;
+}[] = [
+  {
+    key: 'invoice',
+    Icon: DocumentIcon,
+    label: 'Invoice',
+    mockFileName: 'commercial_invoice_0612.pdf',
+  },
+  { key: 'bl', Icon: ShipIcon, label: 'B/L', mockFileName: 'bill_of_lading_scan.jpg' },
+  {
+    key: 'packing',
+    Icon: PackageIcon,
+    label: 'Packing List',
+    mockFileName: 'packing_list_0612.xlsx',
+  },
 ];
 
 export default function UploadScreen() {
@@ -79,10 +98,10 @@ export default function UploadScreen() {
         </Pressable>
 
         <View className="mt-sm w-full flex-col gap-md">
-          {DOC_SLOTS.map(({ key, emoji, label }) => (
+          {DOC_SLOTS.map(({ key, Icon, label }) => (
             <DocSlotCard
               key={key}
-              emoji={emoji}
+              Icon={Icon}
               label={label}
               fileName={files[key]}
               onAdd={fillNextEmptySlot}

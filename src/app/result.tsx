@@ -3,6 +3,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import BackIcon from '@/assets/images/icons/back.svg';
+import WarningIcon from '@/assets/images/icons/warning.svg';
 import BottomNav from '@/components/home/BottomNav';
 import TrafficLight, { type Severity } from '@/components/result/TrafficLight';
 import Button from '@/components/ui/Button';
@@ -42,9 +43,9 @@ const DOT_CLASS: Record<Severity, string> = {
 };
 
 const STAT_CARDS: { key: Severity; label: string; numberClass: string }[] = [
-  { key: 'ok', label: '🟢 정상', numberClass: 'text-success-500' },
-  { key: 'warn', label: '🟡 주의', numberClass: 'text-warning-500' },
-  { key: 'error', label: '🔴 오류', numberClass: 'text-danger-500' },
+  { key: 'ok', label: '정상', numberClass: 'text-success-500' },
+  { key: 'warn', label: '주의', numberClass: 'text-warning-500' },
+  { key: 'error', label: '오류', numberClass: 'text-danger-500' },
 ];
 
 export default function ResultScreen() {
@@ -52,9 +53,10 @@ export default function ResultScreen() {
 
   return (
     <SafeAreaView edges={['top']} style={styles.container}>
-      <View className="w-full items-center bg-warning-100 py-sm">
+      <View className="w-full flex-row items-center justify-center gap-xs bg-warning-100 py-sm">
+        <WarningIcon width={14} height={14} color={colors.warning[700]} />
         <Typography variant="caption" className="font-medium text-warning-700">
-          ⚠️ AI 초안 · 법적 효력 없음 · 참고용
+          AI 초안 · 법적 효력 없음 · 참고용
         </Typography>
       </View>
 
@@ -98,9 +100,12 @@ export default function ResultScreen() {
               <Typography variant="h3" className={`font-title ${numberClass}`}>
                 {SUMMARY[key]}
               </Typography>
-              <Typography variant="caption" className="text-text-secondary">
-                {label}
-              </Typography>
+              <View className="flex-row items-center gap-xs">
+                <View className={`size-sm rounded-full ${DOT_CLASS[key]}`} />
+                <Typography variant="caption" className="text-text-secondary">
+                  {label}
+                </Typography>
+              </View>
             </View>
           ))}
         </View>

@@ -1,6 +1,8 @@
 import { Modal, Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import CheckIcon from '@/assets/images/icons/check.svg';
+import DocumentIcon from '@/assets/images/icons/document.svg';
 import DownloadIcon from '@/assets/images/icons/download.svg';
 import Button from '@/components/ui/Button';
 import Typography from '@/components/ui/Typography';
@@ -12,17 +14,23 @@ interface ExportSheetProps {
 }
 
 // API 연결 전 목업 데이터
-const FILES: { key: string; emoji: string; iconBgClass: string; name: string; meta: string }[] = [
+const FILES: {
+  key: string;
+  iconColor: string;
+  iconBgClass: string;
+  name: string;
+  meta: string;
+}[] = [
   {
     key: 'report',
-    emoji: '📕',
+    iconColor: colors.danger[500],
     iconBgClass: 'bg-danger-100',
     name: '검수 리포트.pdf',
     meta: '교차검증 결과 · 248 KB',
   },
   {
     key: 'bl',
-    emoji: '📘',
+    iconColor: colors.primary[500],
     iconBgClass: 'bg-primary-50',
     name: 'B/L 수정요청서.docx',
     meta: '편집 가능 · 36 KB',
@@ -55,9 +63,7 @@ export default function ExportSheet({ visible, onClose }: ExportSheetProps) {
 
           <View className="mt-xl w-full flex-col items-center gap-lg">
             <View className="size-4xl items-center justify-center rounded-full bg-success-100">
-              <Typography variant="h2" className="font-regular">
-                ✅
-              </Typography>
+              <CheckIcon width={26} height={26} color={colors.success[500]} />
             </View>
 
             <View className="w-full flex-col items-center gap-xs">
@@ -70,7 +76,7 @@ export default function ExportSheet({ visible, onClose }: ExportSheetProps) {
             </View>
 
             <View className="w-full flex-col gap-sm">
-              {FILES.map(({ key, emoji, iconBgClass, name, meta }) => (
+              {FILES.map(({ key, iconColor, iconBgClass, name, meta }) => (
                 <View
                   key={key}
                   className="w-full flex-row items-center gap-md rounded-lg bg-gray-100 px-lg py-md"
@@ -78,7 +84,7 @@ export default function ExportSheet({ visible, onClose }: ExportSheetProps) {
                   <View
                     className={`size-3xl items-center justify-center rounded-md ${iconBgClass}`}
                   >
-                    <Typography variant="body1">{emoji}</Typography>
+                    <DocumentIcon width={20} height={20} color={iconColor} />
                   </View>
                   <View className="flex-1 flex-col">
                     <Typography variant="body2" className="font-bold text-text-primary">

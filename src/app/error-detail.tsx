@@ -3,6 +3,7 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import BackIcon from '@/assets/images/icons/back.svg';
+import WarningIcon from '@/assets/images/icons/warning.svg';
 import Button from '@/components/ui/Button';
 import Typography from '@/components/ui/Typography';
 import colors from '@/constants/colors';
@@ -16,7 +17,7 @@ const DOC_COMPARISONS: {
   mismatch: boolean;
 }[] = [
   { key: 'invoice', doc: 'Invoice · 상업송장', label: '총중량', value: '12,500', mismatch: false },
-  { key: 'bl', doc: 'B/L · 선하증권 ⚠ 불일치', label: '총중량', value: '11,800', mismatch: true },
+  { key: 'bl', doc: 'B/L · 선하증권', label: '총중량', value: '11,800', mismatch: true },
   {
     key: 'packing',
     doc: 'Packing List · 포장명세',
@@ -54,9 +55,10 @@ export default function ErrorDetailScreen() {
       </View>
 
       <ScrollView style={styles.scroll} contentContainerClassName="gap-sm px-xl pb-2xl pt-sm">
-        <View className="self-start rounded-sm bg-danger-100 px-md py-xs">
+        <View className="flex-row items-center gap-xs self-start rounded-sm bg-danger-100 px-md py-xs">
+          <View className="size-sm rounded-full bg-danger-500" />
           <Typography variant="caption" className="font-title text-danger-500">
-            🔴 오류
+            오류
           </Typography>
         </View>
         <Typography variant="h3" className="font-title">
@@ -81,12 +83,22 @@ export default function ErrorDetailScreen() {
               }
             >
               <View className="flex-col gap-xs">
-                <Typography
-                  variant="caption"
-                  className={mismatch ? 'text-danger-700' : 'text-text-secondary'}
-                >
-                  {doc}
-                </Typography>
+                <View className="flex-row items-center gap-xs">
+                  <Typography
+                    variant="caption"
+                    className={mismatch ? 'text-danger-700' : 'text-text-secondary'}
+                  >
+                    {doc}
+                  </Typography>
+                  {mismatch && (
+                    <>
+                      <WarningIcon width={12} height={12} color={colors.danger[700]} />
+                      <Typography variant="caption" className="text-danger-700">
+                        불일치
+                      </Typography>
+                    </>
+                  )}
+                </View>
                 <Typography
                   variant="body2"
                   className={

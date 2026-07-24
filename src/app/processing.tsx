@@ -1,6 +1,7 @@
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import CheckIcon from '@/assets/images/icons/check.svg';
 import DocScanCard from '@/components/processing/DocScanCard';
 import Typography from '@/components/ui/Typography';
 import colors from '@/constants/colors';
@@ -40,9 +41,7 @@ function StepIcon({ status }: { status: StepStatus }) {
   if (status === 'done') {
     return (
       <View className="size-2xl items-center justify-center rounded-full bg-success-500">
-        <Typography variant="body3" className="font-title text-text-inverse">
-          ✓
-        </Typography>
+        <CheckIcon width={12} height={12} color={colors.white} />
       </View>
     );
   }

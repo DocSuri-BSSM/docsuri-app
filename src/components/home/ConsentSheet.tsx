@@ -2,8 +2,11 @@ import { useState } from 'react';
 import { Modal, Pressable, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import CheckIcon from '@/assets/images/icons/check.svg';
+import ShieldIcon from '@/assets/images/icons/shield.svg';
 import Button from '@/components/ui/Button';
 import Typography from '@/components/ui/Typography';
+import colors from '@/constants/colors';
 
 interface ConsentSheetProps {
   visible: boolean;
@@ -80,9 +83,7 @@ export default function ConsentSheet({ visible, onClose, onAgree }: ConsentSheet
 
           <View className="mt-xl w-full flex-col gap-lg">
             <View className="size-4xl items-center justify-center rounded-lg bg-primary-50">
-              <Typography variant="h2" className="font-regular">
-                🛡️
-              </Typography>
+              <ShieldIcon width={24} height={24} color={colors.primary[500]} />
             </View>
 
             <View className="w-full flex-col gap-xs">
@@ -116,11 +117,7 @@ export default function ConsentSheet({ visible, onClose, onAgree }: ConsentSheet
                   agreed ? 'bg-primary-500' : 'border border-gray-300 bg-white'
                 }`}
               >
-                {agreed && (
-                  <Typography variant="body3" className="font-title text-text-inverse">
-                    ✓
-                  </Typography>
-                )}
+                {agreed && <CheckIcon width={14} height={14} color={colors.white} />}
               </View>
               <Typography variant="body2" className="font-bold text-text-primary">
                 위 안내를 모두 확인했습니다
