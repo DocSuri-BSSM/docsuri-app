@@ -1,11 +1,14 @@
 import { router } from 'expo-router';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import BackIcon from '@/assets/images/icons/back.svg';
 import CheckIcon from '@/assets/images/icons/check.svg';
 import BottomNav from '@/components/home/BottomNav';
 import Button from '@/components/ui/Button';
+import Card from '@/components/ui/Card';
+import ScreenHeader from '@/components/ui/ScreenHeader';
+import SeverityDot from '@/components/ui/SeverityDot';
+import StickyFooter from '@/components/ui/StickyFooter';
 import Typography from '@/components/ui/Typography';
 import colors from '@/constants/colors';
 
@@ -16,28 +19,15 @@ const DETECTED_ERROR = {
 };
 
 const STEPS = [
-  { number: '①', text: '검수 결과에서 B/L 오류를 확인해요.' },
-  { number: '②', text: '오류 내용을 바탕으로 정정 요청서를 자동으로 작성해요.' },
-  { number: '③', text: 'PDF · Word로 내보내 선사에 바로 보낼 수 있어요.' },
+  { number: '1', text: '검수 결과에서 B/L 오류를 확인해요.' },
+  { number: '2', text: '오류 내용을 바탕으로 정정 요청서를 자동으로 작성해요.' },
+  { number: '3', text: 'PDF · Word로 내보내 선사에 바로 보낼 수 있어요.' },
 ];
 
 export default function BlScreen() {
   return (
     <SafeAreaView edges={['top']} style={styles.container}>
-      <View className="w-full flex-row items-center px-sm py-sm">
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="뒤로 가기"
-          className="size-3xl items-center justify-center active:opacity-60"
-          onPress={() => router.back()}
-        >
-          <BackIcon width={22} height={22} color={colors.gray[800]} />
-        </Pressable>
-        <Typography variant="body1" className="flex-1 text-center font-bold">
-          B/L 생성
-        </Typography>
-        <View className="w-3xl" />
-      </View>
+      <ScreenHeader title="B/L 생성" />
 
       <ScrollView style={styles.scroll} contentContainerClassName="gap-xs px-xl pb-2xl pt-sm">
         <Typography variant="h3" className="font-title">
@@ -47,40 +37,38 @@ export default function BlScreen() {
           검수에서 발견된 오류를 바탕으로{'\n'}선사에 보낼 정정 요청서를 자동으로 만들어요.
         </Typography>
 
-        <View className="mt-md w-full flex-col gap-sm rounded-lg bg-white px-lg py-lg shadow-sm">
-          <Typography variant="caption" className="text-text-secondary">
-            최근 검수 결과
-          </Typography>
+        <Card className="mt-md flex-col gap-sm px-lg py-lg">
+          <Typography variant="caption">최근 검수 결과</Typography>
           <View className="w-full flex-row items-center gap-sm">
-            <View className="size-md rounded-full bg-danger-500" />
+            <SeverityDot severity="error" />
             <Typography variant="body2" className="font-bold text-text-primary">
               {DETECTED_ERROR.title}
             </Typography>
           </View>
-          <Typography variant="caption" className="text-text-secondary">
-            {DETECTED_ERROR.desc}
-          </Typography>
+          <Typography variant="caption">{DETECTED_ERROR.desc}</Typography>
 
-          <View className="h-px w-full bg-gray-50" />
+          <View className="h-px w-full bg-border" />
 
           <View className="w-full flex-row items-center gap-sm">
             <CheckIcon width={14} height={14} color={colors.success[500]} />
-            <Typography variant="caption" className="font-bold text-success-500">
+            <Typography variant="caption" className="font-bold text-success-700">
               수정 요청서 초안이 준비됐어요
             </Typography>
           </View>
-        </View>
+        </Card>
 
         <View className="mt-md w-full flex-col gap-md rounded-md bg-primary-50/50 p-md pt-lg">
-          <Typography variant="caption" className="font-title text-primary-500">
+          <Typography variant="caption" className="font-title text-primary-600">
             이렇게 만들어져요
           </Typography>
           {STEPS.map(({ number, text }) => (
             <View key={number} className="w-full flex-row items-start gap-sm">
-              <Typography variant="caption" className="text-primary-500">
-                {number}
-              </Typography>
-              <Typography variant="caption" className="flex-1 text-gray-600">
+              <View className="size-2xl items-center justify-center rounded-full bg-primary-50">
+                <Typography variant="caption" className="font-bold text-primary-600">
+                  {number}
+                </Typography>
+              </View>
+              <Typography variant="caption" className="flex-1 pt-xs text-gray-600">
                 {text}
               </Typography>
             </View>
@@ -88,15 +76,15 @@ export default function BlScreen() {
         </View>
       </ScrollView>
 
-      <View className="w-full border-t border-gray-50 bg-white px-xl py-lg">
+      <StickyFooter inset={false}>
         <Button label="수정 요청서 확인하기" size="lg" onPress={() => router.push('/bl-request')} />
-      </View>
+      </StickyFooter>
       <BottomNav activeTab="bl" />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.gray[100] },
+  container: { flex: 1, backgroundColor: colors.surface },
   scroll: { flex: 1 },
 });

@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Modal, Pressable, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Pressable, View } from 'react-native';
 
 import CheckIcon from '@/assets/images/icons/check.svg';
 import ShieldIcon from '@/assets/images/icons/shield.svg';
+import BottomSheet from '@/components/ui/BottomSheet';
 import Button from '@/components/ui/Button';
 import Typography from '@/components/ui/Typography';
 import colors from '@/constants/colors';
@@ -16,7 +16,7 @@ interface ConsentSheetProps {
 
 const NOTICE_ITEMS = [
   {
-    number: '①',
+    number: '1',
     content: (
       <>
         검수 결과는{' '}
@@ -31,7 +31,7 @@ const NOTICE_ITEMS = [
     ),
   },
   {
-    number: '②',
+    number: '2',
     content: (
       <>
         OCR 인식 특성상 일부 데이터가{' '}
@@ -43,7 +43,7 @@ const NOTICE_ITEMS = [
     ),
   },
   {
-    number: '③',
+    number: '3',
     content: (
       <>
         최종 서류의 책임은{' '}
@@ -57,77 +57,57 @@ const NOTICE_ITEMS = [
 ];
 
 export default function ConsentSheet({ visible, onClose, onAgree }: ConsentSheetProps) {
-  const insets = useSafeAreaInsets();
   const [agreed, setAgreed] = useState(false);
 
   return (
-    <Modal
-      transparent
-      statusBarTranslucent
-      visible={visible}
-      animationType="fade"
-      onRequestClose={onClose}
-    >
-      <View className="flex-1 justify-end">
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="닫기"
-          className="absolute inset-0 bg-black/20"
-          onPress={onClose}
-        />
-        <View
-          className="w-full items-center rounded-t-xl bg-white px-2xl pt-md"
-          style={{ paddingBottom: insets.bottom + 24 }}
-        >
-          <View className="h-xs w-3xl rounded-full bg-gray-200" />
-
-          <View className="mt-xl w-full flex-col gap-lg">
-            <View className="size-4xl items-center justify-center rounded-lg bg-primary-50">
-              <ShieldIcon width={24} height={24} color={colors.primary[500]} />
-            </View>
-
-            <View className="w-full flex-col gap-xs">
-              <Typography variant="h3" className="font-title">
-                검수를 시작하기 전에
-              </Typography>
-              <Typography variant="body2">아래 내용을 확인하고 동의해 주세요.</Typography>
-            </View>
-
-            <View className="w-full flex-col gap-md">
-              {NOTICE_ITEMS.map(({ number, content }) => (
-                <View key={number} className="w-full flex-row items-start gap-md">
-                  <Typography variant="body1" className="text-primary-500">
-                    {number}
-                  </Typography>
-                  <Typography variant="body2" className="flex-1 text-gray-600">
-                    {content}
-                  </Typography>
-                </View>
-              ))}
-            </View>
-
-            <Pressable
-              accessibilityRole="checkbox"
-              accessibilityState={{ checked: agreed }}
-              className="w-full flex-row items-center gap-sm rounded-md bg-gray-100 px-md py-md active:opacity-60"
-              onPress={() => setAgreed((prev) => !prev)}
-            >
-              <View
-                className={`size-2xl items-center justify-center rounded-sm ${
-                  agreed ? 'bg-primary-500' : 'border border-gray-300 bg-white'
-                }`}
-              >
-                {agreed && <CheckIcon width={14} height={14} color={colors.white} />}
-              </View>
-              <Typography variant="body2" className="font-bold text-text-primary">
-                위 안내를 모두 확인했습니다
-              </Typography>
-            </Pressable>
-
-            <Button label="동의하고 시작하기" size="lg" disabled={!agreed} onPress={onAgree} />
-          </View>
+    <BottomSheet visible={visible} onClose={onClose}>
+      <View className="mt-xl w-full flex-col gap-lg">
+        <View className="size-4xl items-center justify-center rounded-lg bg-primary-50">
+          <ShieldIcon width={24} height={24} color={colors.primary[600]} />
         </View>
+
+        <View className="w-full flex-col gap-xs">
+          <Typography variant="h3" className="font-title">
+            검수를 시작하기 전에
+          </Typography>
+          <Typography variant="body2">아래 내용을 확인하고 동의해 주세요.</Typography>
+        </View>
+
+        <View className="w-full flex-col gap-md">
+          {NOTICE_ITEMS.map(({ number, content }) => (
+            <View key={number} className="w-full flex-row items-start gap-md">
+              <View className="size-2xl items-center justify-center rounded-full bg-primary-50">
+                <Typography variant="caption" className="font-bold text-primary-600">
+                  {number}
+                </Typography>
+              </View>
+              <Typography variant="body2" className="flex-1 text-gray-600">
+                {content}
+              </Typography>
+            </View>
+          ))}
+        </View>
+
+        <Pressable
+          accessibilityRole="checkbox"
+          accessibilityState={{ checked: agreed }}
+          className="min-h-4xl w-full flex-row items-center gap-sm rounded-md bg-gray-100 px-md py-md active:bg-gray-200"
+          onPress={() => setAgreed((prev) => !prev)}
+        >
+          <View
+            className={`size-2xl items-center justify-center rounded-sm ${
+              agreed ? 'bg-primary-600' : 'border border-gray-300 bg-white'
+            }`}
+          >
+            {agreed && <CheckIcon width={14} height={14} color={colors.white} />}
+          </View>
+          <Typography variant="body2" className="font-bold text-text-primary">
+            위 안내를 모두 확인했습니다
+          </Typography>
+        </Pressable>
+
+        <Button label="동의하고 시작하기" size="lg" disabled={!agreed} onPress={onAgree} />
       </View>
-    </Modal>
+    </BottomSheet>
   );
 }

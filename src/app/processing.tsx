@@ -1,8 +1,16 @@
+import { useEffect } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import CheckIcon from '@/assets/images/icons/check.svg';
 import DocScanCard from '@/components/processing/DocScanCard';
+import Card from '@/components/ui/Card';
 import Typography from '@/components/ui/Typography';
 import colors from '@/constants/colors';
 
@@ -24,8 +32,8 @@ const STATUS_LABEL: Record<StepStatus, string> = {
 };
 
 const STATUS_TEXT_CLASS: Record<StepStatus, string> = {
-  done: 'font-bold text-success-500',
-  active: 'font-bold text-primary-500',
+  done: 'font-bold text-success-700',
+  active: 'font-bold text-primary-600',
   waiting: 'font-medium text-text-tertiary',
 };
 
@@ -47,15 +55,26 @@ function StepIcon({ status }: { status: StepStatus }) {
   }
   if (status === 'active') {
     return (
-      <View className="size-2xl items-center justify-center rounded-full bg-primary-500">
+      <View className="size-2xl items-center justify-center rounded-full bg-primary-600">
         <View className="size-sm rounded-full bg-white" />
       </View>
     );
   }
-  return <View className="size-2xl rounded-full bg-gray-50" />;
+  return <View className="size-2xl rounded-full bg-gray-100" />;
 }
 
 export default function ProcessingScreen() {
+  // 진행률 바를 0에서 목표치까지 부드럽게 채운다. (API 연결 시 서버 값으로 대체)
+  const progress = useSharedValue(0);
+
+  useEffect(() => {
+    progress.value = withTiming(PROGRESS, { duration: 900, easing: Easing.out(Easing.cubic) });
+  }, [progress]);
+
+  const barStyle = useAnimatedStyle(() => ({
+    width: `${progress.value * 100}%`,
+  }));
+
   return (
     <SafeAreaView edges={['top', 'bottom']} style={styles.container}>
       <ScrollView style={styles.scroll} contentContainerClassName="gap-sm px-xl pb-2xl pt-2xl">
@@ -73,49 +92,58 @@ export default function ProcessingScreen() {
             <Typography variant="body2" className="font-bold text-text-primary">
               데이터 추출
             </Typography>
-            <Typography variant="body2" className="font-title text-primary-500">
+            <Typography variant="body2" className="font-title text-primary-600">
               {Math.round(PROGRESS * 100)}%
             </Typography>
           </View>
           <View className="h-sm w-full overflow-hidden rounded-full bg-gray-200">
-            {/* 진행률은 목업 상수 — API 연결 시 서버 값으로 대체 */}
-            <View
-              className="h-full rounded-full bg-primary-500"
-              style={{ width: `${PROGRESS * 100}%` }}
-            />
+            <Animated.View style={[styles.bar, barStyle]} />
           </View>
         </View>
 
-        <View className="mt-sm w-full rounded-lg bg-white px-lg py-xs shadow-sm">
-          {STEPS.map(({ key, label, status }, index) => (
-            <View
-              key={key}
-              className={`w-full flex-row items-center gap-md py-md ${
-                index < STEPS.length - 1 ? 'border-b border-border' : ''
-              }`}
-            >
-              <StepIcon status={status} />
-              <Typography
-                variant="body2"
-                className={`flex-1 ${
-                  status === 'waiting'
-                    ? 'font-medium text-text-tertiary'
-                    : status === 'active'
-                      ? 'font-bold text-text-primary'
-                      : 'font-medium text-text-primary'
-                }`}
-              >
-                {label}
-              </Typography>
-              <Typography variant="caption" className={STATUS_TEXT_CLASS[status]}>
-                {STATUS_LABEL[status]}
-              </Typography>
-            </View>
-          ))}
-        </View>
+        {/* 진행 단계 세로 타임라인 */}
+        <Card className="mt-sm px-lg py-lg">
+          {STEPS.map(({ key, label, status }, index) => {
+            const isLast = index === STEPS.length - 1;
+
+            return (
+              <View key={key} className="w-full flex-row gap-md">
+                <View className="items-center">
+                  <StepIcon status={status} />
+                  {!isLast && (
+                    <View
+                      className={`my-xs w-px flex-1 ${
+                        status === 'done' ? 'bg-success-500' : 'bg-gray-200'
+                      }`}
+                    />
+                  )}
+                </View>
+                <View className={`flex-1 ${isLast ? '' : 'pb-xl'}`}>
+                  <View className="h-2xl w-full flex-row items-center justify-between">
+                    <Typography
+                      variant="body2"
+                      className={
+                        status === 'waiting'
+                          ? 'font-medium text-text-tertiary'
+                          : status === 'active'
+                            ? 'font-bold text-text-primary'
+                            : 'font-medium text-text-primary'
+                      }
+                    >
+                      {label}
+                    </Typography>
+                    <Typography variant="caption" className={STATUS_TEXT_CLASS[status]}>
+                      {STATUS_LABEL[status]}
+                    </Typography>
+                  </View>
+                </View>
+              </View>
+            );
+          })}
+        </Card>
 
         <View className="mt-sm w-full flex-col gap-sm">
-          <Typography variant="caption" className="text-text-secondary">
+          <Typography variant="caption" className="font-medium">
             추출된 항목
           </Typography>
           <View className="w-full flex-row flex-wrap gap-sm">
@@ -140,6 +168,11 @@ export default function ProcessingScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.gray[100] },
+  container: { flex: 1, backgroundColor: colors.surface },
   scroll: { flex: 1 },
+  bar: {
+    height: '100%',
+    borderRadius: 9999,
+    backgroundColor: colors.primary[600],
+  },
 });

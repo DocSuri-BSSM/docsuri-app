@@ -33,8 +33,13 @@ export default function DocSlotCard({ Icon, label, fileName, onAdd }: DocSlotCar
             아직 업로드되지 않았어요
           </Typography>
         </View>
-        <Pressable accessibilityRole="button" className="active:opacity-60" onPress={onAdd}>
-          <Typography variant="body2" className="font-bold text-primary-500">
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`${label} 추가`}
+          className="min-h-4xl items-center justify-center rounded-md px-md active:bg-primary-50"
+          onPress={onAdd}
+        >
+          <Typography variant="body2" className="font-bold text-primary-600">
             + 추가
           </Typography>
         </Pressable>
@@ -48,7 +53,7 @@ export default function DocSlotCard({ Icon, label, fileName, onAdd }: DocSlotCar
       className="w-full flex-row items-center gap-md rounded-lg bg-white px-lg py-md shadow-sm"
     >
       <View className="size-3xl items-center justify-center rounded-md bg-primary-50">
-        <Icon width={20} height={20} color={colors.primary[500]} />
+        <Icon width={20} height={20} color={colors.primary[600]} />
       </View>
       <View className="flex-1 flex-col">
         <Typography variant="body2" className="font-bold text-text-primary">

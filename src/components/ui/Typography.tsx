@@ -38,7 +38,9 @@ const VARIANT_COLOR_CLASS: Record<TypographyVariant, string> = {
   body1: 'text-text-primary',
   body2: 'text-text-secondary',
   body3: 'text-text-secondary',
-  caption: 'text-text-tertiary',
+  // caption은 면책 문구·파일 메타 등 실제 정보를 담는 경우가 많아 secondary가 기본.
+  // tertiary(#9DAABB, 흰 배경 대비 약 2.4:1)는 placeholder성 텍스트에만 명시적으로 지정한다.
+  caption: 'text-text-secondary',
 };
 
 export interface TypographyProps extends TextProps {

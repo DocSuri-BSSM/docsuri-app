@@ -33,28 +33,32 @@ const colors = {
     800: '#1A202C',
     900: '#171923',
   },
+  // 상태색은 원색 대신 채도를 낮춘 뮤트 톤 — 소프트한 primary 블루와 톤을 맞춘다.
+  // 500은 도트·게이지·큰 숫자용(흰 배경 대비 ≥3:1), 텍스트는 700을 쓴다.
   success: {
-    100: '#DCFCE7',
-    500: '#22C55E',
-    700: '#15803D',
+    100: '#E6F3EB',
+    500: '#3EA06F',
+    700: '#2F7D53',
   },
   // 100·700은 피그마 메인페이지 면책 배너, 200은 B/L 요청서의 입력 필요 하이라이트 색상
   warning: {
-    100: '#FEF6E8',
-    200: '#FFF3CD',
-    500: '#F59E0B',
+    100: '#FDF5E7',
+    200: '#F9EFD3',
+    500: '#E6AC4C',
     700: '#866E43',
   },
   danger: {
-    100: '#FEE2E2',
-    500: '#EF4444',
-    700: '#B91C1C',
+    100: '#FAEBE8',
+    500: '#E56A5E',
+    700: '#B44A40',
   },
   white: '#FFFFFF',
   black: '#000000',
   transparent: 'transparent',
 
   // 시맨틱 토큰 (피그마 매핑: surface=g50, border=g100, text.primary=g800, text.secondary=g500)
+  // 용도: 화면 캔버스(SafeAreaView 배경) = surface, 카드 = background(흰색).
+  // gray-100은 카드 내부의 2차 표면(체크박스 배경 등)에만 사용한다.
   background: '#FFFFFF',
   surface: '#F8F9FB',
   border: '#EEF1F6',

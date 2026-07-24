@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
+import InfoIcon from '@/assets/images/icons/info.svg';
+import Card from '@/components/ui/Card';
 import Typography from '@/components/ui/Typography';
+import colors from '@/constants/colors';
 
 export default function GlossarySection() {
   const [tooltipOpen, setTooltipOpen] = useState(false);
@@ -12,7 +15,7 @@ export default function GlossarySection() {
         <Typography variant="h4" className="font-title">
           무역 용어 사전
         </Typography>
-        <Pressable accessibilityRole="button" className="active:opacity-60">
+        <Pressable accessibilityRole="button" className="px-sm py-sm active:opacity-60">
           <Typography variant="body2" className="text-text-secondary">
             초보자 가이드
           </Typography>
@@ -20,7 +23,7 @@ export default function GlossarySection() {
       </View>
 
       <View className="w-full flex-col gap-md">
-        <View className="w-full flex-row items-center justify-between rounded-lg bg-white p-lg shadow-sm">
+        <Card className="flex-row items-center justify-between p-lg">
           <Typography variant="body1" className="font-bold">
             Invoice{' '}
             <Typography variant="body1" className="font-medium text-text-secondary">
@@ -33,11 +36,9 @@ export default function GlossarySection() {
             className="size-2xl items-center justify-center rounded-full bg-primary-50 active:opacity-60"
             onPress={() => setTooltipOpen((prev) => !prev)}
           >
-            <Typography variant="body3" className="font-title text-primary-500">
-              i
-            </Typography>
+            <InfoIcon width={16} height={16} color={colors.primary[600]} />
           </Pressable>
-        </View>
+        </Card>
 
         {tooltipOpen && (
           <View className="relative z-10 w-full">
@@ -55,22 +56,22 @@ export default function GlossarySection() {
         )}
 
         <View className="w-full flex-row gap-md">
-          <View className="flex-1 flex-row items-end gap-xs rounded-lg bg-white px-lg py-md shadow-sm">
+          <Card className="flex-1 flex-row items-end gap-xs px-lg py-md">
             <Typography variant="body2" className="font-bold text-text-primary">
               B/L
             </Typography>
             <Typography variant="body3" className="font-medium">
               선하증권
             </Typography>
-          </View>
-          <View className="flex-1 flex-row items-end gap-xs rounded-lg bg-white px-lg py-md shadow-sm">
+          </Card>
+          <Card className="flex-1 flex-row items-end gap-xs px-lg py-md">
             <Typography variant="body2" className="font-bold text-text-primary">
               HS Code
             </Typography>
             <Typography variant="body3" className="font-medium">
               품목분류
             </Typography>
-          </View>
+          </Card>
         </View>
       </View>
     </View>

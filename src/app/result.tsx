@@ -1,12 +1,15 @@
 import { router } from 'expo-router';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import BackIcon from '@/assets/images/icons/back.svg';
 import WarningIcon from '@/assets/images/icons/warning.svg';
-import BottomNav from '@/components/home/BottomNav';
-import TrafficLight, { type Severity } from '@/components/result/TrafficLight';
-import Button from '@/components/ui/Button';
+import TrafficLight from '@/components/result/TrafficLight';
+import Badge from '@/components/ui/Badge';
+import Card from '@/components/ui/Card';
+import ListRow from '@/components/ui/ListRow';
+import ScreenHeader from '@/components/ui/ScreenHeader';
+import SectionTitle from '@/components/ui/SectionTitle';
+import SeverityDot, { type Severity } from '@/components/ui/SeverityDot';
 import Typography from '@/components/ui/Typography';
 import colors from '@/constants/colors';
 
@@ -36,13 +39,7 @@ const ISSUE_ITEMS: { key: string; severity: Severity; title: string; detail: str
 
 const OK_ITEM = { title: '수량 · 총금액 · 단가 · 원산지 · 포장수량', detail: '5개 항목 일치' };
 
-const DOT_CLASS: Record<Severity, string> = {
-  error: 'bg-danger-500',
-  warn: 'bg-warning-500',
-  ok: 'bg-success-500',
-};
-
-const STAT_CARDS: { key: Severity; label: string; numberClass: string }[] = [
+const STAT_COLUMNS: { key: Severity; label: string; numberClass: string }[] = [
   { key: 'ok', label: '정상', numberClass: 'text-success-500' },
   { key: 'warn', label: '주의', numberClass: 'text-warning-500' },
   { key: 'error', label: '오류', numberClass: 'text-danger-500' },
@@ -52,7 +49,7 @@ export default function ResultScreen() {
   const totalCount = SUMMARY.error + SUMMARY.warn + SUMMARY.ok;
 
   return (
-    <SafeAreaView edges={['top']} style={styles.container}>
+    <SafeAreaView edges={['top', 'bottom']} style={styles.container}>
       <View className="w-full flex-row items-center justify-center gap-xs bg-warning-100 py-sm">
         <WarningIcon width={14} height={14} color={colors.warning[700]} />
         <Typography variant="caption" className="font-medium text-warning-700">
@@ -60,105 +57,63 @@ export default function ResultScreen() {
         </Typography>
       </View>
 
-      <View className="w-full flex-row items-center px-sm py-sm">
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="뒤로 가기"
-          className="size-3xl items-center justify-center active:opacity-60"
-          onPress={() => router.back()}
-        >
-          <BackIcon width={22} height={22} color={colors.gray[800]} />
-        </Pressable>
-        <Typography variant="body1" className="flex-1 text-center font-bold">
-          검수 결과
-        </Typography>
-        <View className="w-3xl" />
-      </View>
+      <ScreenHeader title="검수 결과" />
 
       <ScrollView style={styles.scroll} contentContainerClassName="gap-sm px-xl pb-2xl pt-sm">
-        <View className="w-full flex-row items-center gap-xl rounded-lg bg-white p-xl shadow-sm">
-          <TrafficLight active="error" />
-          <View className="flex-1 flex-col gap-xs">
-            <View className="self-start rounded-sm bg-danger-100 px-md py-xs">
-              <Typography variant="caption" className="font-title text-danger-500">
-                오류 발견
+        {/* 요약 히어로: 신호등 + 요약 + 심각도별 카운트를 한 카드로 */}
+        <Card className="p-xl">
+          <View className="w-full flex-row items-center gap-xl">
+            <TrafficLight active="error" />
+            <View className="flex-1 flex-col gap-xs">
+              <Badge label="오류 발견" variant="error" />
+              <Typography variant="h3" className="font-title">
+                오류 {SUMMARY.error}건,{'\n'}주의 {SUMMARY.warn}건이에요
               </Typography>
+              <Typography variant="body2">총 {totalCount}개 항목 검증</Typography>
             </View>
-            <Typography variant="h3" className="font-title">
-              오류 {SUMMARY.error}건,{'\n'}주의 {SUMMARY.warn}건이에요
-            </Typography>
-            <Typography variant="body2">총 {totalCount}개 항목 검증</Typography>
           </View>
-        </View>
 
-        <View className="mt-xs w-full flex-row gap-sm">
-          {STAT_CARDS.map(({ key, label, numberClass }) => (
-            <View
-              key={key}
-              className="flex-1 items-center gap-xs rounded-lg bg-white py-lg shadow-sm"
-            >
-              <Typography variant="h3" className={`font-title ${numberClass}`}>
-                {SUMMARY[key]}
-              </Typography>
-              <View className="flex-row items-center gap-xs">
-                <View className={`size-sm rounded-full ${DOT_CLASS[key]}`} />
-                <Typography variant="caption" className="text-text-secondary">
-                  {label}
+          <View className="mt-lg w-full flex-row border-t border-border pt-lg">
+            {STAT_COLUMNS.map(({ key, label, numberClass }) => (
+              <View key={key} className="flex-1 items-center gap-xs">
+                <Typography variant="h3" className={`font-title ${numberClass}`}>
+                  {SUMMARY[key]}
                 </Typography>
+                <View className="flex-row items-center gap-xs">
+                  <SeverityDot severity={key} size="sm" />
+                  <Typography variant="caption">{label}</Typography>
+                </View>
               </View>
-            </View>
-          ))}
-        </View>
+            ))}
+          </View>
+        </Card>
 
-        <Typography variant="body2" className="mt-md font-title text-text-primary">
-          항목별 결과
-        </Typography>
+        <SectionTitle className="mt-md">항목별 결과</SectionTitle>
 
-        <View className="w-full rounded-lg bg-white px-lg py-xs shadow-sm">
+        <Card className="px-lg py-xs">
           {ISSUE_ITEMS.map(({ key, severity, title, detail }) => (
-            <Pressable
+            <ListRow
               key={key}
-              accessibilityRole="button"
-              className="w-full flex-row items-center gap-md border-b border-border py-md active:opacity-60"
+              title={title}
+              subtitle={detail}
+              left={<SeverityDot severity={severity} />}
+              showDivider
               onPress={() => router.push('/error-detail')}
-            >
-              <View className={`size-md rounded-full ${DOT_CLASS[severity]}`} />
-              <View className="flex-1 flex-col">
-                <Typography variant="body2" className="font-bold text-text-primary">
-                  {title}
-                </Typography>
-                <Typography variant="caption" className="text-text-secondary">
-                  {detail}
-                </Typography>
-              </View>
-              <Typography variant="h4" className="font-regular text-gray-300">
-                ›
-              </Typography>
-            </Pressable>
+            />
           ))}
-          <View className="w-full flex-row items-center gap-md py-md">
-            <View className={`size-md rounded-full ${DOT_CLASS.ok}`} />
-            <View className="flex-1 flex-col">
-              <Typography variant="body2" className="font-medium text-gray-600">
-                {OK_ITEM.title}
-              </Typography>
-              <Typography variant="caption" className="text-text-secondary">
-                {OK_ITEM.detail}
-              </Typography>
-            </View>
-          </View>
-        </View>
+          <ListRow
+            title={OK_ITEM.title}
+            subtitle={OK_ITEM.detail}
+            left={<SeverityDot severity="ok" />}
+            titleClassName="font-medium text-gray-600"
+          />
+        </Card>
       </ScrollView>
-
-      <View className="w-full border-t border-gray-50 bg-white px-xl py-lg">
-        <Button label="오류 상세 보기" size="lg" onPress={() => router.push('/error-detail')} />
-      </View>
-      <BottomNav activeTab="result" />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.gray[100] },
+  container: { flex: 1, backgroundColor: colors.surface },
   scroll: { flex: 1 },
 });

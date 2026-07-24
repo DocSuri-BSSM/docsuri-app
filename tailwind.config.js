@@ -36,12 +36,16 @@ module.exports = {
         '3xl': 40,
         '4xl': 48,
       },
+      // 터치 타깃 최소 높이(Android 48dp)용
+      minHeight: {
+        '4xl': 48,
+      },
       borderRadius: {
         xs: 4,
         sm: 8,
         md: 12,
         lg: 16,
-        xl: 24,
+        xl: 20,
         '2xl': 24,
         '3xl': 40,
         '4xl': 48,

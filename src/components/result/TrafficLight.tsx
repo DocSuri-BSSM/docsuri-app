@@ -1,6 +1,8 @@
 import { View } from 'react-native';
 
-export type Severity = 'error' | 'warn' | 'ok';
+import { type Severity } from '@/components/ui/SeverityDot';
+
+export { type Severity };
 
 const LIGHT_ORDER: Severity[] = ['error', 'warn', 'ok'];
 

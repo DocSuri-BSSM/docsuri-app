@@ -1,12 +1,14 @@
-import { router } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import BackIcon from '@/assets/images/icons/back.svg';
 import CheckIcon from '@/assets/images/icons/check.svg';
 import ExportSheet from '@/components/export/ExportSheet';
+import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
+import Card from '@/components/ui/Card';
+import ScreenHeader from '@/components/ui/ScreenHeader';
+import StickyFooter from '@/components/ui/StickyFooter';
 import Typography from '@/components/ui/Typography';
 import colors from '@/constants/colors';
 
@@ -27,32 +29,16 @@ export default function BlRequestScreen() {
 
   return (
     <SafeAreaView edges={['top']} style={styles.container}>
-      <View className="w-full flex-row items-center px-sm py-sm">
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="뒤로 가기"
-          className="size-3xl items-center justify-center active:opacity-60"
-          onPress={() => router.back()}
-        >
-          <BackIcon width={22} height={22} color={colors.gray[800]} />
-        </Pressable>
-        <Typography variant="body1" className="flex-1 text-center font-bold">
-          B/L 수정 요청서
-        </Typography>
-        <View className="w-3xl" />
-      </View>
+      <ScreenHeader title="B/L 수정 요청서" />
 
       <ScrollView style={styles.scroll} contentContainerClassName="gap-sm px-xl pb-2xl pt-sm">
         <View className="w-full flex-row items-center gap-sm">
-          <View className="flex-row items-center gap-xs rounded-sm bg-success-100 px-md py-xs">
-            <CheckIcon width={12} height={12} color={colors.success[500]} />
-            <Typography variant="caption" className="font-bold text-success-500">
-              자동 생성됨
-            </Typography>
-          </View>
-          <Typography variant="caption" className="text-text-secondary">
-            탐지된 오류 기반
-          </Typography>
+          <Badge
+            label="자동 생성됨"
+            variant="ok"
+            icon={<CheckIcon width={12} height={12} color={colors.success[700]} />}
+          />
+          <Typography variant="caption">탐지된 오류 기반</Typography>
         </View>
         <View className="w-full flex-row items-center gap-xs">
           <Typography
@@ -61,12 +47,11 @@ export default function BlRequestScreen() {
           >
             노란 표시
           </Typography>
-          <Typography variant="caption" className="text-text-secondary">
-            = 발송 전 직접 입력이 필요한 부분이에요.
-          </Typography>
+          <Typography variant="caption">= 발송 전 직접 입력이 필요한 부분이에요.</Typography>
         </View>
 
-        <View className="mt-xs w-full flex-col gap-md rounded-lg bg-white px-xl py-2xl shadow-sm">
+        {/* 문서 미리보기 — 실제 서식 느낌을 위해 여백을 넉넉히 잡는다 */}
+        <Card className="mt-xs flex-col gap-lg px-xl py-3xl">
           <View className="w-full items-center border-b-2 border-gray-800 pb-lg">
             <Typography variant="body1" className="font-title text-text-primary">
               B/L 정정 요청서
@@ -97,7 +82,7 @@ export default function BlRequestScreen() {
             </View>
           </View>
 
-          <View className="h-px w-full bg-gray-50" />
+          <View className="h-px w-full bg-border" />
 
           <View className="w-full flex-col gap-xs">
             <Typography variant="caption" className="font-bold text-gray-700">
@@ -119,11 +104,11 @@ export default function BlRequestScreen() {
               총중량(Gross Weight) 기재 정정
             </Typography>
             <Typography variant="caption" className="text-gray-700">
-              <Typography variant="caption" className="font-bold text-danger-500">
+              <Typography variant="caption" className="font-bold text-danger-700">
                 11,800 KG
               </Typography>{' '}
               →{' '}
-              <Typography variant="caption" className="font-bold text-success-500">
+              <Typography variant="caption" className="font-bold text-success-700">
                 12,500 KG
               </Typography>
             </Typography>
@@ -144,12 +129,12 @@ export default function BlRequestScreen() {
               위와 같이 정정을 요청합니다.
             </Typography>
           </View>
-        </View>
+        </Card>
       </ScrollView>
 
-      <View className="w-full border-t border-gray-50 bg-white px-xl py-lg">
+      <StickyFooter>
         <Button label="PDF · Word로 내보내기" size="lg" onPress={() => setExportOpen(true)} />
-      </View>
+      </StickyFooter>
 
       <ExportSheet visible={exportOpen} onClose={() => setExportOpen(false)} />
     </SafeAreaView>
@@ -157,6 +142,6 @@ export default function BlRequestScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.gray[100] },
+  container: { flex: 1, backgroundColor: colors.surface },
   scroll: { flex: 1 },
 });

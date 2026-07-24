@@ -4,13 +4,14 @@ import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { type SvgProps } from 'react-native-svg';
 
-import BackIcon from '@/assets/images/icons/back.svg';
 import DocumentIcon from '@/assets/images/icons/document.svg';
 import PackageIcon from '@/assets/images/icons/package.svg';
 import ShipIcon from '@/assets/images/icons/ship.svg';
 import UploadIcon from '@/assets/images/icons/upload.svg';
-import BottomNav from '@/components/home/BottomNav';
+import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
+import ScreenHeader from '@/components/ui/ScreenHeader';
+import StickyFooter from '@/components/ui/StickyFooter';
 import Typography from '@/components/ui/Typography';
 import DocSlotCard from '@/components/upload/DocSlotCard';
 import colors from '@/constants/colors';
@@ -46,7 +47,16 @@ export default function UploadScreen() {
     packing: null,
   });
 
-  const remaining = DOC_SLOTS.filter(({ key }) => !files[key]).length;
+  const emptyLabels = DOC_SLOTS.filter(({ key }) => !files[key]).map(({ label }) => label);
+  const remaining = emptyLabels.length;
+
+  // 남은 서류를 드롭존 캡션으로 안내해 다음 행동을 알려준다.
+  const dropzoneCaption =
+    remaining === DOC_SLOTS.length
+      ? '또는 탭하여 파일 선택'
+      : remaining > 0
+        ? `${emptyLabels.join(' · ')}만 남았어요`
+        : '모든 서류가 준비됐어요';
 
   const fillNextEmptySlot = () => {
     const empty = DOC_SLOTS.find(({ key }) => !files[key]);
@@ -57,24 +67,7 @@ export default function UploadScreen() {
 
   return (
     <SafeAreaView edges={['top']} style={styles.container}>
-      <View className="w-full flex-row items-center px-sm py-sm">
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel="뒤로 가기"
-          className="size-3xl items-center justify-center active:opacity-60"
-          onPress={() => router.back()}
-        >
-          <BackIcon width={22} height={22} color={colors.gray[800]} />
-        </Pressable>
-        <Typography variant="body1" className="flex-1 text-center font-bold">
-          서류 업로드
-        </Typography>
-        <View className="w-3xl items-center">
-          <Typography variant="body2" className="font-bold">
-            1/3
-          </Typography>
-        </View>
-      </View>
+      <ScreenHeader title="서류 업로드" right={<Badge label="1/3" variant="info" />} />
 
       <ScrollView style={styles.scroll} contentContainerClassName="gap-sm px-xl pb-2xl pt-sm">
         <Typography variant="h2" className="font-title">
@@ -85,16 +78,14 @@ export default function UploadScreen() {
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="파일 선택"
-          className="mt-xs w-full items-center gap-xs rounded-lg border-2 border-dashed border-primary-200 bg-primary-50 px-lg pb-2xl pt-3xl active:opacity-70"
+          className="mt-xs w-full items-center gap-xs rounded-lg border-2 border-dashed border-primary-200 bg-primary-50 px-lg pb-2xl pt-3xl active:bg-primary-100"
           onPress={fillNextEmptySlot}
         >
-          <UploadIcon width={32} height={32} color={colors.primary[500]} />
-          <Typography variant="body1" className="font-bold text-primary-500">
+          <UploadIcon width={32} height={32} color={colors.primary[600]} />
+          <Typography variant="body1" className="font-bold text-primary-600">
             여기로 파일을 끌어다 놓기
           </Typography>
-          <Typography variant="caption" className="text-text-secondary">
-            또는 탭하여 파일 선택
-          </Typography>
+          <Typography variant="caption">{dropzoneCaption}</Typography>
         </Pressable>
 
         <View className="mt-sm w-full flex-col gap-md">
@@ -110,20 +101,19 @@ export default function UploadScreen() {
         </View>
       </ScrollView>
 
-      <View className="w-full border-t border-gray-50 bg-white px-xl py-lg">
+      <StickyFooter>
         <Button
           label={remaining > 0 ? `서류 ${remaining}개 더 올리면 시작` : '검수 시작'}
           size="lg"
           disabled={remaining > 0}
           onPress={() => router.push('/processing')}
         />
-      </View>
-      <BottomNav activeTab="upload" />
+      </StickyFooter>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.gray[100] },
+  container: { flex: 1, backgroundColor: colors.surface },
   scroll: { flex: 1 },
 });
