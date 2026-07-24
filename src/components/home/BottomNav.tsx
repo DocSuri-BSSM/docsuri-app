@@ -25,7 +25,7 @@ const TAB_ROUTES: Partial<Record<BottomNavTabKey, Href>> = {
   home: '/',
   result: '/result',
   upload: '/upload',
-  hs: '/hs',
+  hs: '/hs-input',
 };
 
 interface BottomNavProps {

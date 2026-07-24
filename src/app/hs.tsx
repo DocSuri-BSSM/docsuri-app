@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -9,8 +9,8 @@ import Button from '@/components/ui/Button';
 import Typography from '@/components/ui/Typography';
 import colors from '@/constants/colors';
 
-// API 연결 전 목업 데이터
-const PRODUCT_NAME = '스테인리스 진공 보온병 (이중벽, 750ml)';
+// API 연결 전 목업 데이터 (입력 화면에서 넘어오지 않았을 때의 기본값)
+const FALLBACK_PRODUCT_NAME = '스테인리스 진공 보온병 (이중벽, 750ml)';
 
 const CANDIDATES: {
   code: string;
@@ -43,6 +43,8 @@ const CANDIDATES: {
 ];
 
 export default function HsScreen() {
+  const { query } = useLocalSearchParams<{ query?: string }>();
+  const productName = query?.trim() || FALLBACK_PRODUCT_NAME;
   const [selectedCode, setSelectedCode] = useState(CANDIDATES[0].code);
 
   return (
@@ -68,7 +70,7 @@ export default function HsScreen() {
             분석한 품목
           </Typography>
           <Typography variant="body2" className="font-bold text-text-primary">
-            {PRODUCT_NAME}
+            {productName}
           </Typography>
         </View>
 
