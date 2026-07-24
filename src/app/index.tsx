@@ -21,7 +21,7 @@ export default function HomeScreen() {
     <SafeAreaView edges={['top']} style={styles.container}>
       <ScrollView style={styles.scroll} contentContainerClassName="gap-2xl px-xl py-2xl">
         <View className="w-full flex-row items-center justify-between">
-          <Typography variant="h2" className="font-title text-primary-600">
+          <Typography variant="h1" className="font-logo text-primary-600">
             독수리
           </Typography>
           <IconButton accessibilityLabel="도움말">

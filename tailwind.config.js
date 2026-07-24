@@ -68,6 +68,8 @@ module.exports = {
         medium: ['Pretendard-Medium'],
         bold: ['Pretendard-Bold'],
         title: ['Pretendard-ExtraBold'],
+        // 앱 로고('독수리') 전용 — 안상수체 2006 굵은
+        logo: ['AhnSangsoo2006-Bold'],
       },
     },
   },
