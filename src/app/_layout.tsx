@@ -15,7 +15,8 @@ export default function RootLayout() {
         <QueryClientProvider client={queryClient}>
           {/* 앱 공용 Provider는 이 위치에 추가한다 (Auth, Toast 등) */}
           <StatusBar style="auto" />
-          <Stack screenOptions={{ headerShown: false }} />
+          {/* Android 기본 전환 대신 일관된 우측 슬라이드 전환을 명시 */}
+          <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right' }} />
         </QueryClientProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>

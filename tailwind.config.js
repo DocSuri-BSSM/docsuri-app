@@ -36,12 +36,16 @@ module.exports = {
         '3xl': 40,
         '4xl': 48,
       },
+      // 터치 타깃 최소 높이(Android 48dp)용
+      minHeight: {
+        '4xl': 48,
+      },
       borderRadius: {
         xs: 4,
         sm: 8,
         md: 12,
         lg: 16,
-        xl: 24,
+        xl: 20,
         '2xl': 24,
         '3xl': 40,
         '4xl': 48,
@@ -64,6 +68,8 @@ module.exports = {
         medium: ['Pretendard-Medium'],
         bold: ['Pretendard-Bold'],
         title: ['Pretendard-ExtraBold'],
+        // 앱 로고('독수리') 전용 — 안상수체 2006 굵은
+        logo: ['AhnSangsoo2006-Bold'],
       },
     },
   },
