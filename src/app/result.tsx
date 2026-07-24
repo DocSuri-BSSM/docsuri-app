@@ -111,9 +111,11 @@ export default function ResultScreen() {
 
         <View className="w-full rounded-lg bg-white px-lg py-xs shadow-sm">
           {ISSUE_ITEMS.map(({ key, severity, title, detail }) => (
-            <View
+            <Pressable
               key={key}
-              className="w-full flex-row items-center gap-md border-b border-border py-md"
+              accessibilityRole="button"
+              className="w-full flex-row items-center gap-md border-b border-border py-md active:opacity-60"
+              onPress={() => router.push('/error-detail')}
             >
               <View className={`size-md rounded-full ${DOT_CLASS[severity]}`} />
               <View className="flex-1 flex-col">
@@ -127,7 +129,7 @@ export default function ResultScreen() {
               <Typography variant="h4" className="font-regular text-gray-300">
                 ›
               </Typography>
-            </View>
+            </Pressable>
           ))}
           <View className="w-full flex-row items-center gap-md py-md">
             <View className={`size-md rounded-full ${DOT_CLASS.ok}`} />
@@ -144,12 +146,7 @@ export default function ResultScreen() {
       </ScrollView>
 
       <View className="w-full border-t border-gray-50 bg-white px-xl py-lg">
-        <Button
-          label="오류 상세 보기"
-          size="lg"
-          // TODO: 오류 상세 화면 연결
-          onPress={() => {}}
-        />
+        <Button label="오류 상세 보기" size="lg" onPress={() => router.push('/error-detail')} />
       </View>
       <BottomNav activeTab="result" />
     </SafeAreaView>
